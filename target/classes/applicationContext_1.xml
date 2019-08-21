@@ -1,0 +1,40 @@
+<!--
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                          http://www.springframework.org/schema/beans/spring-beans.xsd
+
+                          http://www.springframework.org/schema/aop
+                          http://www.springframework.org/schema/aop/spring-aop.xsd">
+    &lt;!&ndash;创建数据访问层对象&ndash;&gt;
+    <bean id="personMapper" class="com.kgc.kd52.dao.impl.PersonMapperImpl"></bean>
+
+    &lt;!&ndash;创建业务访问层对象&ndash;&gt;
+    <bean id="personService" class="com.kgc.kd52.service.impl.PersonServiceImpl">
+        <property name="mapper" ref="personMapper"/>
+    </bean>
+
+    &lt;!&ndash;创建com.kgc.kd52.aop.LogInfo公共的记录日志文件信息的方法(AOP的切面)&ndash;&gt;
+    <bean id="logInfo" class="com.kgc.kd52.aop.LogInfo"></bean>
+
+    &lt;!&ndash;定义aop的配置信息
+        proxy-target-class="false" :默认值，基于jdk的动态代理机制，基于面向接口获取；
+
+        proxy-target-class="true":spring提供cglib的动态代理机制，基于实现类获取；
+    &ndash;&gt;
+    <aop:config proxy-target-class="true">
+        &lt;!&ndash;定义aop切入点
+            id="自定义的切入点别名，给后续需要调用该切入点的切面做准备的"
+            expression="定义给需要哪些业务类组件添加切面的"
+        &ndash;&gt;
+        <aop:pointcut id="perPoint" expression="execution(* com.kgc.kd52.*.impl.*.*(..))"/>
+
+        &lt;!&ndash;定义切面&ndash;&gt;
+        <aop:aspect ref="logInfo">
+            &lt;!&ndash;根据切面组件类的方法名，见名知意，定义了前置通知&ndash;&gt;
+            <aop:before method="beforeLog" pointcut-ref="perPoint"/>
+        </aop:aspect>
+    </aop:config>
+</beans>-->

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                          http://www.springframework.org/schema/beans/spring-beans.xsd
+
+                          http://www.springframework.org/schema/aop
+                          http://www.springframework.org/schema/aop/spring-aop.xsd
+
+                          http://www.springframework.org/schema/context
+                          http://www.springframework.org/schema/context/spring-context.xsd
+">
+
+
+    <!--注：以spring提供的注解的形式进行组装层与层之间的关系-->
+    <!--定义注解扫描包-->
+    <context:component-scan base-package="com.kgc.kd52"/>
+
+    <!--创建com.kgc.kd52.aop.LogInfo公共的记录日志文件信息的方法(AOP的切面)-->
+    <bean id="logInfo" class="com.kgc.kd52.aop.LogInfo"></bean>
+
+    <!--定义aop的配置信息
+        proxy-target-class="false" :默认值，基于jdk的动态代理机制，基于面向接口获取；
+
+        proxy-target-class="true":spring提供cglib的动态代理机制，基于实现类获取；
+    -->
+    <aop:config proxy-target-class="true">
+        <!--定义aop切入点
+            id="自定义的切入点别名，给后续需要调用该切入点的切面做准备的"
+            expression="定义给需要哪些业务类组件添加切面的"
+        -->
+        <aop:pointcut id="perPoint" expression="execution(* com.kgc.kd52.*.impl.*.*(..))"/>
+
+        <!--定义切面-->
+        <aop:aspect ref="logInfo">
+            <!--根据切面组件类的方法名，见名知意，定义了前置通知-->
+            <aop:before method="beforeLog" pointcut-ref="perPoint"/>
+        </aop:aspect>
+    </aop:config>
+</beans>
